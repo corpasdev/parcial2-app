@@ -3,7 +3,9 @@ package com.example.parcial2_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -33,5 +35,22 @@ public class Detalle extends AppCompatActivity {
             // Cargar la imagen usando Picasso
             Picasso.get().load(usuario.getImagen()).into(img_usuario);
         }
+
+        TextView btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Borrar los datos de SharedPreferences
+                SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
+                editor.clear(); // Borra todos los datos
+                editor.apply();
+
+                // Redirigir al activity de inicio de sesión
+                Intent intent = new Intent(Detalle.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Esto asegura que el usuario no pueda volver atrás presionando el botón de retroceso
+            }
+        });
+
     }
 }
